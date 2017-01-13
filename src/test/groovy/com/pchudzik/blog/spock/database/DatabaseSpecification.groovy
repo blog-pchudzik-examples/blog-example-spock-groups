@@ -1,4 +1,4 @@
-package com.pchudzik.blog.spock
+package com.pchudzik.blog.spock.database
 
 import com.pchudzik.blog.spock.groups.Database
 import org.junit.experimental.categories.Category

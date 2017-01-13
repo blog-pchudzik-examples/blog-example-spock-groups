@@ -5,25 +5,13 @@ import static java.util.Arrays.asList
 import static TestGroups.*
 
 class TestGroupsTest extends Specification {
-	def "should include all categories when no groups defined"() {
-		given:
-		final groups = new TestGroups("")
-
-		expect:
-		asList(groups.includedGroups()) == [
-				FAST_CATEGORY_CLASS,
-				SLOW_CATEGORY_CLASS,
-				DATABASE_CATEGORY_CLASS,
-				IT_CATEGORY_CLASS
-		]
-	}
-
 	@Unroll
-	def "should exclude nothing when no exclusion defined"() {
+	def "should include all and exclude nothing when no categories defined"() {
 		given:
 		final groups = new TestGroups(groupsString)
 
 		expect:
+		groups.includedGroups().length == 0
 		groups.excludedGroups().length == 0
 
 		where:
@@ -55,12 +43,7 @@ class TestGroupsTest extends Specification {
 		]
 
 		and:
-		asList(groups.includedGroups()) == [
-				FAST_CATEGORY_CLASS,
-				SLOW_CATEGORY_CLASS,
-				DATABASE_CATEGORY_CLASS,
-				IT_CATEGORY_CLASS
-		]
+		groups.includedGroups().length == 0
 	}
 
 	def "included and excluded categories should be resolved"() {

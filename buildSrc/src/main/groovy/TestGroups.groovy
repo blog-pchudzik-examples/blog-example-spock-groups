@@ -1,15 +1,15 @@
 class TestGroups {
-	public static final FAST_CATEGORY = "fast"
-	public static final FAST_CATEGORY_CLASS = "com.pchudzik.blog.spock.groups.Fast"
+	protected static final FAST_CATEGORY = "fast"
+	protected static final FAST_CATEGORY_CLASS = "com.pchudzik.blog.spock.groups.Fast"
 
-	public static final SLOW_CATEGORY_CLASS = "com.pchudzik.blog.spock.groups.Slow"
-	public static final SLOW_CATEGORY = "slow"
+	protected static final SLOW_CATEGORY_CLASS = "com.pchudzik.blog.spock.groups.Slow"
+	protected static final SLOW_CATEGORY = "slow"
 
-	public static final String DATABASE_CATEGORY_CLASS = "com.pchudzik.blog.spock.groups.Database"
-	public static final String DATABASE_CATEGORY = "db"
+	protected static final String DATABASE_CATEGORY_CLASS = "com.pchudzik.blog.spock.groups.Database"
+	protected static final String DATABASE_CATEGORY = "db"
 
-	public static final String IT_CATEGORY_CLASS = "com.pchudzik.blog.spock.groups.Integration"
-	public static final String IT_CATEGORY = "it"
+	protected static final String IT_CATEGORY_CLASS = "com.pchudzik.blog.spock.groups.Integration"
+	protected static final String IT_CATEGORY = "it"
 
 	private static final groupDefinitions = [
 			(FAST_CATEGORY)    : FAST_CATEGORY_CLASS,
@@ -42,14 +42,16 @@ class TestGroups {
 	}
 
 	private Collection<String> includes() {
-		final includedGroups = groupsParam.findAll { !it.startsWith("-") }
-		return includedGroups.isEmpty() ? groupDefinitions.keySet() : includedGroups
+		groupsParam.findAll { !isExcluded(it) }
 	}
 
 	private Collection<String> excludes() {
-		final excludedGroups = groupsParam
-				.findAll { it.startsWith("-") }
+		groupsParam
+				.findAll { isExcluded(it) }
 				.collect { it.replaceFirst("-", "") }
-		return excludedGroups
+	}
+
+	private boolean isExcluded(String group) {
+		group.startsWith("-")
 	}
 }
